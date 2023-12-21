@@ -21,10 +21,10 @@ public:
 	UCharacterModifier_AddEquipmentManagerComponent() {}
 
 protected:
-	UPROPERTY(EditDefaultsOnly, Category = "AbilitySystem")
+	UPROPERTY(EditDefaultsOnly, Category = "AddEquipmentManagerComponent")
 	TSoftClassPtr<UEquipmentManagerComponent> ComponentClass{ nullptr };
 
-	UPROPERTY(EditDefaultsOnly, Category = "AbilitySystem")
+	UPROPERTY(EditDefaultsOnly, Category = "AddEquipmentManagerComponent")
 	TSoftObjectPtr<UEquipmentSet> EquipmentSet{ nullptr };
 
 protected:
