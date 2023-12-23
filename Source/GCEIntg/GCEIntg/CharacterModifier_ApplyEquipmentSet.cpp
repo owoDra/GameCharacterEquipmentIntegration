@@ -13,17 +13,19 @@
 #include UE_INLINE_GENERATED_CPP_BY_NAME(CharacterModifier_ApplyEquipmentSet)
 
 
-void UCharacterModifier_ApplyEquipmentSet::OnApply(APawn* Pawn) const
+UCharacterModifier_ApplyEquipmentSet::UCharacterModifier_ApplyEquipmentSet()
 {
-	check(Pawn)
+	bOnlyApplyOnLocal = false;
+	bApplyOnClient = false;
+	bApplyOnServer = true;
+}
 
-	UE_LOG(LogGCEI, Log, TEXT("[%s] On Instance Apply(%s)"),
-		Pawn->HasAuthority() ? TEXT("SERVER") : TEXT("CLIENT"), *GetNameSafe(this));
 
-	const auto* World{ Pawn->GetWorld() };
-	const auto bIsServer{ World->GetNetMode() != NM_Client };
+bool UCharacterModifier_ApplyEquipmentSet::OnApply(APawn* Pawn) const
+{
+	const auto bCanApply{ Super::OnApply(Pawn) };
 
-	if (bIsServer)
+	if (bCanApply)
 	{
 		if (auto* EMC{ UEquipmentFunctionLibrary::GetEquipmentManagerComponentFromPawn(Pawn) })
 		{
@@ -38,4 +40,6 @@ void UCharacterModifier_ApplyEquipmentSet::OnApply(APawn* Pawn) const
 			EMC->ResetEquipmentsByEquipmentSet(LoadedEquipmentSet);
 		}
 	}
+
+	return bCanApply;
 }

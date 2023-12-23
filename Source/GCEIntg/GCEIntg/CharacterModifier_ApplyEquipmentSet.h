@@ -17,13 +17,13 @@ class UCharacterModifier_ApplyEquipmentSet final : public UCharacterModifier
 {
 	GENERATED_BODY()
 public:
-	UCharacterModifier_ApplyEquipmentSet() {}
+	UCharacterModifier_ApplyEquipmentSet();
 
 protected:
 	UPROPERTY(EditDefaultsOnly, Category = "ApplyEquipmentSet")
 	TSoftObjectPtr<UEquipmentSet> EquipmentSet{ nullptr };
 
 protected:
-	virtual void OnApply(APawn* Pawn) const override;
+	virtual bool OnApply(APawn* Pawn) const override;
 
 };

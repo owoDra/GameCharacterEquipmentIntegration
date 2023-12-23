@@ -18,7 +18,7 @@ class UCharacterModifier_AddEquipmentManagerComponent final : public UCharacterM
 {
 	GENERATED_BODY()
 public:
-	UCharacterModifier_AddEquipmentManagerComponent() {}
+	UCharacterModifier_AddEquipmentManagerComponent();
 
 protected:
 	UPROPERTY(EditDefaultsOnly, Category = "AddEquipmentManagerComponent")
@@ -28,6 +28,6 @@ protected:
 	TSoftObjectPtr<UEquipmentSet> EquipmentSet{ nullptr };
 
 protected:
-	virtual void OnApply(APawn* Pawn) const override;
+	virtual bool OnApply(APawn* Pawn) const override;
 
 };
