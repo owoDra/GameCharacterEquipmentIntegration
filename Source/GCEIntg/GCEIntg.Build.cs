@@ -23,6 +23,7 @@ public class GCEIntg : ModuleRules
                 "Core",
                 "CoreUObject",
                 "Engine",
+                "GameplayTags",
             }
         );
 
@@ -31,6 +32,7 @@ public class GCEIntg : ModuleRules
             new string[]
             {
                 "GCExt",
+                "GAExt",
                 "GAEAddon",
             }
         );
