@@ -37,7 +37,7 @@ bool UCharacterModifier_ApplyEquipmentSet::OnApply(APawn* Pawn) const
 
 			UE_LOG(LogGCEI, Log, TEXT("++EquipmentSet (Name: %s)"), *GetNameSafe(LoadedEquipmentSet));
 
-			EMC->ResetEquipmentsByEquipmentSet(LoadedEquipmentSet);
+			EMC->SetInitialEquipmentSet(LoadedEquipmentSet);
 		}
 	}
 

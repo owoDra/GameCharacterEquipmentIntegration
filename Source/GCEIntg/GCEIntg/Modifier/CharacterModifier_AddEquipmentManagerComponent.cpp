@@ -47,7 +47,7 @@ bool UCharacterModifier_AddEquipmentManagerComponent::OnApply(APawn* Pawn) const
 
 			UE_LOG(LogGCEI, Log, TEXT("++EquipmentSet (Name: %s)"), *GetNameSafe(LoadedEquipmentSet));
 
-			NewEMC->ResetEquipmentsByEquipmentSet(LoadedEquipmentSet);
+			NewEMC->SetInitialEquipmentSet(LoadedEquipmentSet);
 		}
 	}
 
