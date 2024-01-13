@@ -1,6 +1,8 @@
-// Copyright (C) 2024 owoDra
+﻿// Copyright (C) 2024 owoDra
 
 #include "EquipmentFragment_SetAnimLayersForMesh.h"
+
+#include "GCEIntgLogs.h"
 
 #include "EquipmentManagerComponent.h"
 #include "EquipmentInstance.h"
@@ -22,6 +24,8 @@ UEquipmentFragment_SetAnimLayersForMesh::UEquipmentFragment_SetAnimLayersForMesh
 
 void UEquipmentFragment_SetAnimLayersForMesh::OnActivated(UEquipmentManagerComponent* EMC, UEquipmentInstance* Instance) const
 {
+	Super::OnActivated(EMC, Instance);
+
 	check(Instance);
 
 	auto* Pawn{ Instance->GetPawn<APawn>() };
@@ -36,32 +40,22 @@ void UEquipmentFragment_SetAnimLayersForMesh::OnActivated(UEquipmentManagerCompo
 			continue;
 		}
 
+		UE_LOG(LogGCEI, Log, TEXT("+ To [%s](Class:%s)")
+			, *Tag.GetTagName().ToString()
+			, *GetNameSafe(Class));
+
 		if (auto* Mesh{ ICharacterMeshAccessorInterface::Execute_GetMeshByTag(Pawn, Tag) })
 		{
-			Mesh->LinkAnimClassLayers(Class);
+			Instance->ApplyAnimLayer(Mesh, Class);
 		}
 	}
 }
 
 void UEquipmentFragment_SetAnimLayersForMesh::OnDeactivated(UEquipmentManagerComponent* EMC, UEquipmentInstance* Instance) const
 {
+	Super::OnDeactivated(EMC, Instance);
+
 	check(Instance);
 
-	auto* Pawn{ Instance->GetPawn<APawn>() };
-
-	for (const auto& KVP : AnimLayerToApply)
-	{
-		const auto& Tag{ KVP.Key };
-		const auto& Class{ KVP.Value };
-
-		if (!Class)
-		{
-			continue;
-		}
-
-		if (auto* Mesh{ ICharacterMeshAccessorInterface::Execute_GetMeshByTag(Pawn, Tag) })
-		{
-			Mesh->UnlinkAnimClassLayers(Class);
-		}
-	}
+	Instance->RemoveAnimLayers();
 }
