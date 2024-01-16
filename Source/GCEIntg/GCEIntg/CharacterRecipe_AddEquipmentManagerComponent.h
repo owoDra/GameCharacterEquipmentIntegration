@@ -2,9 +2,9 @@
 
 #pragma once
 
-#include "CharacterModifier.h"
+#include "Recipe/CharacterRecipe.h"
 
-#include "CharacterModifier_AddEquipmentManagerComponent.generated.h"
+#include "CharacterRecipe_AddEquipmentManagerComponent.generated.h"
 
 class UEquipmentManagerComponent;
 class UEquipmentSet;
@@ -13,12 +13,12 @@ class UEquipmentSet;
 /**
  * Modifier class to add equipment manager component to Pawn
  */
-UCLASS(meta = (DisplayName = "CM Add Equipment Manager Component"))
-class UCharacterModifier_AddEquipmentManagerComponent final : public UCharacterModifier
+UCLASS()
+class UCharacterRecipe_AddEquipmentManagerComponent final : public UCharacterRecipe
 {
 	GENERATED_BODY()
 public:
-	UCharacterModifier_AddEquipmentManagerComponent();
+	UCharacterRecipe_AddEquipmentManagerComponent();
 
 protected:
 	UPROPERTY(EditDefaultsOnly, Category = "AddEquipmentManagerComponent")
@@ -28,6 +28,6 @@ protected:
 	TSoftObjectPtr<UEquipmentSet> EquipmentSet{ nullptr };
 
 protected:
-	virtual bool OnApply(APawn* Pawn) const override;
+	virtual void StartSetupNonInstanced_Implementation(FCharacterRecipePawnInfo Info) const override;
 
 };
