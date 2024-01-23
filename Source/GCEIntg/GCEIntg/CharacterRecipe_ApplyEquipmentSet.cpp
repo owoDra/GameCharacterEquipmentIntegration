@@ -2,13 +2,12 @@
 
 #include "CharacterRecipe_ApplyEquipmentSet.h"
 
-#include "GCEIntgLogs.h"
-
 #include "EquipmentFunctionLibrary.h"
 #include "EquipmentManagerComponent.h"
 #include "EquipmentSet.h"
 
 #include "CharacterInitStateComponent.h"
+#include "GCExtLogs.h"
 
 #include "GameFramework/Pawn.h"
 
@@ -19,6 +18,11 @@ UCharacterRecipe_ApplyEquipmentSet::UCharacterRecipe_ApplyEquipmentSet()
 {
 	InstancingPolicy = ECharacterRecipeInstancingPolicy::NonInstanced;
 	NetExecutionPolicy = ECharacterRecipeNetExecutionPolicy::ServerOnly;
+
+#if WITH_EDITOR
+	StaticClass()->FindPropertyByName(FName{ TEXTVIEW("InstancingPolicy") })->SetPropertyFlags(CPF_DisableEditOnTemplate);
+	StaticClass()->FindPropertyByName(FName{ TEXTVIEW("NetExecutionPolicy") })->SetPropertyFlags(CPF_DisableEditOnTemplate);
+#endif
 }
 
 
@@ -26,7 +30,7 @@ void UCharacterRecipe_ApplyEquipmentSet::StartSetupNonInstanced_Implementation(F
 {
 	auto* Pawn{ Info.Pawn.Get() };
 
-	if (auto* EMC{ UEquipmentFunctionLibrary::GetEquipmentManagerComponentFromPawn(Pawn) })
+	if (auto* EMC{ UEquipmentFunctionLibrary::GetEquipmentManagerComponentFromActor(Pawn) })
 	{
 		auto* LoadedEquipmentSet
 		{
@@ -34,8 +38,9 @@ void UCharacterRecipe_ApplyEquipmentSet::StartSetupNonInstanced_Implementation(F
 			EquipmentSet.IsValid() ? EquipmentSet.Get() : EquipmentSet.LoadSynchronous()
 		};
 
-		UE_LOG(LogGCEI, Log, TEXT("++EquipmentSet (Name: %s)"), *GetNameSafe(LoadedEquipmentSet));
+		UE_LOG(LogGameExt_CharacterRecipe, Log, TEXT("++EquipmentSet (Name: %s)"), *GetNameSafe(LoadedEquipmentSet));
 
-		EMC->SetInitialEquipmentSet(LoadedEquipmentSet);
+		TArray<FActiveEquipmentHandle> DummyHandles;
+		LoadedEquipmentSet->AddEquipmentItems(EMC, DummyHandles);
 	}
 }

@@ -1,4 +1,4 @@
-// Copyright (C) 2024 owoDra
+﻿// Copyright (C) 2024 owoDra
 
 using UnrealBuildTool;
 
@@ -32,8 +32,7 @@ public class GCEIntg : ModuleRules
             new string[]
             {
                 "GCExt",
-                "GAExt",
-                "GAEAddon",
+                "GEEquip",
             }
         );
 
